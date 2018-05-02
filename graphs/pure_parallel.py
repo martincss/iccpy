@@ -4,7 +4,7 @@ from time import sleep
 
 def sample_func(i):
     """ a sample function """
-    print i,'says hello'
+    print(i,'says hello')
     
 
 

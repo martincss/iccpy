@@ -1,1 +1,1 @@
-from latex import latexParams
+from .latex import latexParams

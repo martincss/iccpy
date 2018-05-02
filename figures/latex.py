@@ -18,7 +18,7 @@ latexParams = {'figure.dpi':150,
 
 if __name__=='__main__':
     for x in sorted(pl.rcParams):
-        print x,pl.rcParams[x]
+        print(x,pl.rcParams[x])
     pl.rcParams.update(latexParams)
     import numpy as np
     x = np.arange(100)/20.0

@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import numpy as np
 import os
 import re
@@ -100,7 +100,7 @@ class GadgetBinaryHeader:
         return "Gadget Binary Snapshot Header:\n" + str(self._data)
         
     def __dir__(self):
-        return sorted(set((dir(type(self)) + list(self.__dict__) + self._data.keys())))
+        return sorted(set((dir(type(self)) + list(self.__dict__) + list(self._data.keys()))))
     
     def __getattr__(self, name):
         if name not in self._data:
@@ -140,7 +140,7 @@ class GadgetBinaryHeaderFormat2:
                 break
             n = np.fromstring(eight, u32,1)[0]
             assert(n==8)
-            name = file.read(4)
+            name = file.read(4).decode('ascii')   # MARTIN CHANGE HERE
             file_offset += 8
             #print 'Found name', name
 
@@ -155,7 +155,7 @@ class GadgetBinaryHeaderFormat2:
         file.close()
 
         # Also find length of id block (by differencing file offsets between this block and next)
-        ordered_blocks = sorted(self._file_offsets.keys(), key=self._file_offsets.__getitem__)
+        ordered_blocks = sorted(list(self._file_offsets.keys()), key=self._file_offsets.__getitem__)
         next_block = ordered_blocks[ordered_blocks.index('ID  ')+1]
         
         id_block_len = self._file_offsets[next_block] - self._file_offsets['ID  '] - 24
@@ -179,7 +179,7 @@ class GadgetBinaryHeaderFormat2:
         return "Gadget Binary Snapshot Format 2 Header:\n" + str(self._data)
         
     def __dir__(self):
-        return sorted(set((dir(type(self)) + list(self.__dict__) + self._data.keys())))
+        return sorted(set((dir(type(self)) + list(self.__dict__) + list(self._data.keys()))))
     
     def __getattr__(self, name):
         if name not in self._data:
@@ -300,7 +300,7 @@ class GadgetBinaryFormat1Snapshot:
     def __dir__(self): 
         if self._blocks is None:
             self._load_blocks()   
-        return sorted(set((list(self.__dict__) + self._blocks.keys())))         
+        return sorted(set((list(self.__dict__) + list(self._blocks.keys()))))         
     
     def _load_blocks(self):
         headers = [ GadgetBinaryHeader(self._files[i]) for i in range(len(self._files)) ]
@@ -340,7 +340,7 @@ class GadgetBinaryFormat1Snapshot:
         if self._additional_blocks is not None:
             for name in self._additional_blocks:
                 if name not in _block_element_nums:
-                    raise(KeyError, "Unknown block name %s" % name)
+                    raise KeyError
             
                 dim = 1 if _block_element_nums[name]==1 else 2
                 self._blocks[name] = GadgetBinaryBlock(self, name, dim, self.header.dtype, self._files, nparts, file_offsets)
@@ -351,7 +351,7 @@ class GadgetBinaryFormat1Snapshot:
             self._load_blocks()
     
         if name not in self._blocks:
-            raise(KeyError, "Unknown block name %s" % name)
+            raise KeyError
         
         return self._blocks[name]
         
@@ -400,7 +400,7 @@ class GadgetBinaryFormat2Snapshot:
     def __dir__(self): 
         if self._blocks is None:
             self._load_blocks()
-        return sorted(set((list(self.__dict__) + self._blocks.keys())))
+        return sorted(set((list(self.__dict__) + list(self._blocks.keys()))))
         
     def _load_blocks(self):
         headers = [ GadgetBinaryHeaderFormat2(self._files[i]) for i in range(len(self._files)) ]
@@ -415,7 +415,7 @@ class GadgetBinaryFormat2Snapshot:
         nparts_mass[np.where(masses==0)] = nparts[np.where(masses==0)]
  
         # check that either all masses are set or that we have a mass block
-        if 'MASS' in self.header._file_offsets.keys():
+        if 'MASS' in list(self.header._file_offsets.keys()):
             if np.sum(nparts_mass)==0:
                 raise Exception('MASS block present but masses set in header!')
         else:
@@ -426,7 +426,7 @@ class GadgetBinaryFormat2Snapshot:
 
 
         # Go through each of the blocks found in the file and set a GadgetBinaryBlock for them
-        for name in self.header._file_offsets.keys():
+        for name in list(self.header._file_offsets.keys()):
 
             file_offsets = []
             for h in headers:
@@ -468,7 +468,7 @@ class GadgetBinaryFormat2Snapshot:
         if self._blocks is None:
             self._load_blocks()
 
-        return iter(self._blocks.keys())
+        return iter(list(self._blocks.keys()))
 
     def __getitem__(self, name):
         if self._blocks is None:

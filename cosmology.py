@@ -1,5 +1,5 @@
 import numpy as np
-import constants
+from . import constants
 import scipy.integrate
 
 OMEGA_L0 = OmegaLambda0            = 0.75#0.742

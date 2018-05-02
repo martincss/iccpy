@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 import numpy as np
 import time
 import iccpy.utils
@@ -255,9 +255,9 @@ class SubfindCatalogue:
         f.close()
         # Byteswap data if necessary
         if byteswap:
-            for key in fof_block.keys():
+            for key in list(fof_block.keys()):
                 fof_block[key] = fof_block[key].byteswap()
-            for key in subhalo_block.keys():
+            for key in list(subhalo_block.keys()):
                 subhalo_block[key] = subhalo_block[key].byteswap()                
                 
         #Convert into set of fofgroups and subhaloes

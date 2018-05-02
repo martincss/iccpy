@@ -64,7 +64,7 @@ def set_units(units):
         UNIT_TIME = 1
         
     else:
-        print "Error: Unknown unit system"
+        print("Error: Unknown unit system")
         return
 
     UNITS = units

@@ -120,12 +120,12 @@ def test():
     r,p,rho,u,r_s,p_s,rho_s,u_s,shock_speed = \
         sedov(t=0.05, E0=5.0, rho0=5.0, g=gamma)
 
-    print 'rho shock', rho_s
-    print 'p shock', p_s
-    print 'u shock', u_s
-    print 'r shock', r_s
+    print('rho shock', rho_s)
+    print('p shock', p_s)
+    print('u shock', u_s)
+    print('r shock', r_s)
 
-    print 'Dimensionless var (E/rho) t^2 r^-5', (5.0 /5.0)* 0.05**0.4 * r[-1]**-1.0
+    print('Dimensionless var (E/rho) t^2 r^-5', (5.0 /5.0)* 0.05**0.4 * r[-1]**-1.0)
     vols = (4/3.0)*pi*r*r*r
     dv = vols.copy()
     dv[1:] = diff(dv)
@@ -136,9 +136,9 @@ def test():
     energy = te.sum() + ke.sum()
     mass = 0.5*inner(rho[1:]+rho[:-1],dv[1:])
 
-    print 'density', mass / (4/3.0 * pi * r_s**3)
-    print 'energy', energy
-    print 'shock speed', shock_speed
+    print('density', mass / (4/3.0 * pi * r_s**3))
+    print('energy', energy)
+    print('shock speed', shock_speed)
     pl.plot(r/r_s,rho/rho_s, label=r'$\rho/\rho_s$')
     pl.plot(r/r_s,p/p_s, label=r'$p/p_s$')
     pl.plot(r/r_s,u/u_s, label=r'$u/u_s$')
@@ -177,10 +177,10 @@ def test3():
     r,p,rho,u,r_s,p_s,rho_s,u_s,shock_speed = \
         sedov(t=0.05, E0=5.0, rho0=5.0, g=5.0/3.0, nu=2)
 
-    print 'rho shock', rho_s
-    print 'p shock', p_s
-    print 'u shock', u_s
-    print 'r shock', r_s
+    print('rho shock', rho_s)
+    print('p shock', p_s)
+    print('u shock', u_s)
+    print('r shock', r_s)
   
     area = pi*r*r
     dv = area.copy()
@@ -191,13 +191,13 @@ def test3():
     ke = (rho*u*u*0.5*dv)
     #pl.plot(arange(te.size), ke, 'x')
     #pl.show()
-    print 'r0', r[:2]
+    print('r0', r[:2])
     energy = te.sum() + ke.sum()
     mass = 0.5*inner(rho[1:]+rho[:-1],dv[1:])
 
-    print 'density', mass / (pi * r_s**2)
-    print 'energy', energy
-    print 'shock speed', shock_speed
+    print('density', mass / (pi * r_s**2))
+    print('energy', energy)
+    print('shock speed', shock_speed)
     pl.plot(r/r_s,rho/rho_s, 'b,',label=r'$\rho/\rho_s$')
     pl.plot(r/r_s,p/p_s,'r',label=r'$p/p_s$')
     pl.plot(r/r_s,u/u_s, 'g,',label=r'$u/u_s$')

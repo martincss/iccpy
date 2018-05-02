@@ -13,7 +13,7 @@ def _potential_integrand(r, halo):
 
 class HaloRealisation:
     def __init__(self, alpha, beta, gamma, rho_s, r_s, r_a, r_v=0):
-        print "Initialising halo model..."
+        print("Initialising halo model...")
         
         self.alpha = alpha
         self.beta = beta
@@ -39,13 +39,13 @@ class HaloRealisation:
         r_min = self.r_s * 1e-6
         self.r_table = np.logspace(np.log10(r_min),np.log10(r_max),1e4)
         
-        print "Tabulating mass..."
+        print("Tabulating mass...")
         self.mass_table = np.array([ self.cumlative_mass_actual(r) for r in self.r_table ])
         
-        print "Tabulating potential..."
+        print("Tabulating potential...")
         self.potential_table = np.array([ self.potential_actual(r) for r in self.r_table ])
         
-        print "Tabulating f(Q)... warning this may take some time"
+        print("Tabulating f(Q)... warning this may take some time")
         self.logQ_table = np.linspace(np.log10(-self.potential_table[-1000]), np.log10(-self.potential_table[0]), 10000, endpoint=True)        
         self.logf_table = np.log10( [ self.dist_func_actual(10**logQ) for logQ in self.logQ_table ])
         
@@ -53,7 +53,7 @@ class HaloRealisation:
         self.r_max = self.r_table[-1000]
         self.total_mass = self.mass_table[-1000]
         
-        print "Initialisation Complete"
+        print("Initialisation Complete")
                         
     def density(self, r): #tested
         #if r>0.04: return 0
@@ -158,7 +158,7 @@ class HaloRealisation:
     def dist_func_actual(self, Q):
         x_min = np.arcsin(np.sqrt(-self.potential_table[-1]/Q))
         fQ = 2*np.sqrt(Q)*scipy.integrate.quad(self.dist_func_integrand, x_min, np.pi/2, (Q), epsabs=0, epsrel=1e-5, weight='sin', wvar=1)[0]/(np.sqrt(8)*np.pi**2)
-        print Q, fQ
+        print(Q, fQ)
         return fQ
     
     def distribution_function_Q_max(self, Q):
@@ -207,11 +207,11 @@ def sample_density(halo, n, method='random'):
         return None
     
 def sample(halo, n, method='random'):
-    print "Sampling halo"
+    print("Sampling halo")
     pos, r = sample_density(halo, n, method)
     n = pos.shape[0]
     
-    print "Density sampling complete, %d points picked" % n
+    print("Density sampling complete, %d points picked" % n)
     
     psi = -halo.potential(r)
         
@@ -252,7 +252,7 @@ def sample(halo, n, method='random'):
         rejections += idx.size
         
             
-    print 'Velocity sampling done, total rejected', rejections
+    print('Velocity sampling done, total rejected', rejections)
 
     return pos, vel
 

@@ -3,7 +3,7 @@ Code created by Peter Creasey
 """
 from tables import openFile
 from numpy import mgrid, flatnonzero, empty, float64, repeat, int32, unique, arange, cumprod, array
-from itertools import izip
+
 
 def read_flash_names(f, names):
     """ read arrays of the given names in a flash file """
@@ -115,7 +115,7 @@ def block_shape(f):
         for i,par in enumerate(['nxb', 'nyb', 'nzb'][:dimension]):
             nb[i]= p_dict[par]
     else:
-        print dir(f.getNode(f.root, 'block size'))
+        print(dir(f.getNode(f.root, 'block size')))
         dimension = 3
         params = f.getNode(f.root, 'simulation parameters')
         nb = empty(dimension, dtype=int32)
@@ -175,7 +175,7 @@ def uniform_grid(filename, vars=['dens']):
     grid_n = idx.max(0) + 1
 
     uni_shape = nb * grid_n
-    print 'Uniform grid of shape', uni_shape
+    print('Uniform grid of shape', uni_shape)
 
 
     result = []
@@ -184,7 +184,7 @@ def uniform_grid(filename, vars=['dens']):
         flash_vals = f.getNode(f.root, var_name).read()
 
         val_arr = empty(uni_shape[::-1], dtype= flash_vals.dtype)
-        for idx_i,val_block in izip(idx, flash_vals[leaf_blocks]):
+        for idx_i,val_block in zip(idx, flash_vals[leaf_blocks]):
             a = nb * idx_i
             b = nb * (idx_i+1)
             

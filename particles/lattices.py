@@ -55,12 +55,12 @@ def hcp_lattice(nx,ny,nz):
 if __name__=='__main__':
 
   pos, box_size = hcp_lattice(10,10,10)
-  print box_size
-  print 'number of points', pos.shape[0]
+  print(box_size)
+  print('number of points', pos.shape[0])
   vol = box_size[0]*box_size[1] * box_size[2]
-  print 'volume', vol
-  print 'density', pos.shape[0] / vol
-  print 'packing factor', pos.shape[0] * (pi / 6.0) / vol
+  print('volume', vol)
+  print('density', pos.shape[0] / vol)
+  print('packing factor', pos.shape[0] * (pi / 6.0) / vol)
 
   pos = ccp_lattice(5,10,15)
   

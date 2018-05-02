@@ -44,7 +44,7 @@ def convert_to_gadget(filename):
     num_particle_types = f['/Header/NumPartTypes'][0]
     
     if num_particle_types>5:
-        print "Error - Gadget only supports 5 dark matter particle types. %s has %d" % (filename, num_particle_types)
+        print("Error - Gadget only supports 5 dark matter particle types. %s has %d" % (filename, num_particle_types))
     
     num_particles = np.zeros(6)
     pos = []
@@ -92,14 +92,14 @@ def convert_to_gadget(filename):
                    ('buffer', [0]*56), ('flag_metals', 0), ('npartTotalHighWord', [0,0,0,0,0,0]), 
                    ('flag_entropy_instead_u', 0), ('flag_doubleprecision', 1)))
                 
-    print "Writing gadget snapshot %s.snp" % filename
-    print header
+    print("Writing gadget snapshot %s.snp" % filename)
+    print(header)
     
     iccpy.gadget.binary_snapshot_io.write_snapshot_file("%s.snp" % filename, header, pos, vel, ids, masses=mass_block)
     
 if __name__=="__main__":
     if len(sys.argv)!= 2:
-        print "Usage: ./convert.py filename"
+        print("Usage: ./convert.py filename")
         sys.exit()
     
     convert_to_gadget(sys.argv[1])    

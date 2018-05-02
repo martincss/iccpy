@@ -1,1 +1,1 @@
-from readwrite import readf
+from .readwrite import readf

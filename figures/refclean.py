@@ -25,7 +25,7 @@ def tex_bib_and_citations(tex_file):
     if bib_str is None:
         raise('No bibliography found!')
     bib_file = bib_file+'.bib'
-    print 'bibliography:', bib_file
+    print('bibliography:', bib_file)
     return bib_file, citations
 
 def bib_entries(bib_file):
@@ -35,7 +35,7 @@ def bib_entries(bib_file):
     f.close()
     
     bib = bib.split('@')
-    print 'Number of bibliography entries', len(bib)
+    print('Number of bibliography entries', len(bib))
 
     bib_all = {}
     for entr in bib:
@@ -55,41 +55,41 @@ def refclean(tex_file, out_file='cleanedbib.bib'):
     bib_file, citations = tex_bib_and_citations(tex_file)
     bib = bib_entries(bib_file)
     new_bib = {}
-    print 'The following references are in', bib_file, 'but not cited in', tex_file,':'
-    for name in bib.keys():
+    print('The following references are in', bib_file, 'but not cited in', tex_file,':')
+    for name in list(bib.keys()):
         if name not in citations:
-            print name,
+            print(name, end=' ')
             continue
         new_bib[name]=bib[name]
-    print '\n\nGenerating cleaned bibliography', out_file
+    print('\n\nGenerating cleaned bibliography', out_file)
     f = open(out_file, 'w')
-    f.write('\n'.join(new_bib.values()))
+    f.write('\n'.join(list(new_bib.values())))
     f.write('\n')
     f.close()
-    print 'done.'
+    print('done.')
 
 def bib_remove_duplicates(bib_file, out_file='cleanedbib.bib'):
     """ make a new bibliography (default cleanedbib.bib) with duplicates removed """
     all_bib = bib_entries(bib_file)
     f = open(out_file, 'w')
-    f.write('\n'.join(all_bib.values()))
+    f.write('\n'.join(list(all_bib.values())))
     f.write('\n')
     f.close()    
 
 if __name__=='__main__':
     if len(argv)<2:
-        print 'Usage refclean XYZ.tex|XYZ.bib'
-        print 'For .tex files, searches for references and keeps only used ones in bibliography'
-        print 'For .bib files, removes duplicates'
+        print('Usage refclean XYZ.tex|XYZ.bib')
+        print('For .tex files, searches for references and keeps only used ones in bibliography')
+        print('For .bib files, removes duplicates')
         exit(0)
         
     name = argv[1]
     if name[-4:]=='.tex':
-        print 'latex file:', name
+        print('latex file:', name)
         refclean(name)
     elif name[-4:]=='.bib':
-        print 'bibliography file:', name
+        print('bibliography file:', name)
         bib_remove_duplicates(name)
     else:
-        print 'unkown file:', name
+        print('unkown file:', name)
     

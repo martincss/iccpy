@@ -45,5 +45,5 @@ if __name__=="__main__":
     r = np.logspace(-2, 1, 100)
     x = np.where(r<1, r**2, r**3)
 
-    print fit_power_law(x, r, 1)
-    print fit_broken_power_law(x, r, 1)
+    print(fit_power_law(x, r, 1))
+    print(fit_broken_power_law(x, r, 1))
